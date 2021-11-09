@@ -11,7 +11,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 )
 
 type GodisApiServer struct {
@@ -26,20 +25,12 @@ func NewApiServer() *GodisApiServer {
 	defaultRepository := &repository.DefaultRepository{GodisServer: godis}
 	godisRepository := repository.Repository(defaultRepository)
 
-	port := os.Getenv("GodisApiPort")
+	endpoint := os.Getenv("GodisApiEndpoint")
 
-	if port == "" {
-		port = "8090"
-		log.Printf("'GodisApiPort' env variable was not set. Falling back to default: %s\n", port)
+	if endpoint == "" {
+		endpoint = "127.0.0.1:8090"
+		log.Printf("'GodisApiEndpoint' env variable was not set. Falling back to default: %s\n", endpoint)
 	}
-
-	num, err := strconv.ParseInt(port, 0, 16)
-
-	if (num < 1024 || num > 99999) || err != nil {
-		log.Fatal("Failed to parse 'GodisApiPort' env variable! Port number must be between 1024 and 99999.")
-	}
-
-	endpoint := fmt.Sprintf("0.0.0.0:%s", port)
 
 	handler := http.NewServeMux()
 	httpServer := &http.Server{Addr: endpoint, Handler: handler}
@@ -51,7 +42,7 @@ func NewApiServer() *GodisApiServer {
 
 	httpServer.ListenAndServe()
 
-	log.Println("GodisApiServer started successfully!")
+	log.Printf("GodisApiServer started successfully! Listening on %s\n", endpoint)
 
 	return apiServer
 }
@@ -146,7 +137,7 @@ func response(w http.ResponseWriter, v interface{}, reqUUID string) {
 
 	if err != nil {
 		log.Printf("Logged by %s : An error occurred while converting result to json. Responding with internal error!\n", reqUUID)
-		jsn, err = json.Marshal(godisApi.InternalError{Error: "An internal error has occurred!"})
+		jsn, _ = json.Marshal(godisApi.InternalError{Error: "An internal error has occurred!"})
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(jsn)
 		return
