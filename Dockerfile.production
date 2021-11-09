@@ -1,0 +1,11 @@
+FROM golang:stretch
+ENV GodisApiEndpoint=0.0.0.0:8090
+ENV GodisBackupInterval=1h
+
+WORKDIR /app
+RUN go get -u github.com/callduckk/YSGo
+RUN go build -o /app/cmd/
+
+EXPOSE 8090
+
+ENTRYPOINT [ "/app/cmd" ]
