@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Execute git clone and docker-compose up
+      uses: appleboy/ssh-action@master
+      with:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: |
+          git clone https://github.com/callduckk/YSGo-nginxReverseProxy.git /home/github/YSGo-NginxReverseProxy
+          cd /home/github/YSGo-NginxReverseProxy
+          docker-compose up --detach
+          mkdir /home/github/GodisAPI
+          cd /home/github/GodisAPI
+          curl -O https://github.com/callduckk/YSGo/blob/main/Dockerfile.production
+          curl -O https://github.com/callduckk/YSGo/blob/main/docker-compose.yml
+          docker-compose up --detach
