@@ -9,26 +9,26 @@ import (
 
 const latestBackupFileName string = "Latest-GodisBackup.json"
 
-type godisServer struct {
+type GodisServer struct {
 	dictionary *sync.Map
 }
 
-func (server *godisServer) Set(key, val string) {
+func (server *GodisServer) Set(key, val string) {
 	server.dictionary.Store(key, val)
 }
 
-func (server *godisServer) Get(key string) (val interface{}, ok bool) {
+func (server *GodisServer) Get(key string) (val interface{}, ok bool) {
 	return server.dictionary.Load(key)
 }
 
-func (server *godisServer) Flush() {
+func (server *GodisServer) Flush() {
 	server.dictionary.Range(func(key, value interface{}) bool {
 		server.dictionary.Delete(key)
 		return true
 	})
 }
 
-func (server *godisServer) toJson() ([]byte, error) {
+func (server *GodisServer) toJson() ([]byte, error) {
 	tempMap := make(map[string]string)
 
 	server.dictionary.Range(func(key, value interface{}) bool {
@@ -46,7 +46,7 @@ func (server *godisServer) toJson() ([]byte, error) {
 	return jsonDictionary, nil
 }
 
-func (server *godisServer) fromJson(jsonDictionary []byte) error {
+func (server *GodisServer) fromJson(jsonDictionary []byte) error {
 	tempMap := make(map[string]string)
 
 	err := json.Unmarshal(jsonDictionary, &tempMap)
@@ -67,7 +67,7 @@ func getLatestBackupFileName() string {
 	return os.TempDir() + "/" + latestBackupFileName
 }
 
-func (server *godisServer) backupToFile() (string, error) {
+func (server *GodisServer) backupToFile() (string, error) {
 
 	file, err := os.CreateTemp("", "*-GodisBackup.json")
 
@@ -101,7 +101,7 @@ func (server *godisServer) backupToFile() (string, error) {
 	return file.Name(), nil
 }
 
-func (server *godisServer) loadFromFile() {
+func (server *GodisServer) loadFromFile() {
 
 	server.Flush()
 

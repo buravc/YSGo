@@ -97,3 +97,36 @@ func Test_cronTest(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func Test_singleton(t *testing.T) {
+
+	ready := false
+	ch := make(chan bool)
+
+	var singleton1 *GodisServer
+	var singleton2 *GodisServer
+
+	go func() {
+		for !ready {
+		}
+		singleton1 = Singleton()
+		ch <- true
+	}()
+	go func() {
+		for !ready {
+		}
+		singleton2 = Singleton()
+		ch <- true
+	}()
+
+	ready = true
+
+	for i := 0; i < 2; i++ {
+		<-ch
+	}
+
+	if singleton1 != singleton2 || singleton1 == nil {
+		t.Fail()
+	}
+
+}

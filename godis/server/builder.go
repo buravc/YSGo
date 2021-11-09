@@ -16,9 +16,9 @@ const (
 	WithoutBackup
 )
 
-func buildGodisServer(serverType ServerType, loadBackup bool) *godisServer {
+func buildGodisServer(serverType ServerType, loadBackup bool) *GodisServer {
 
-	server := &godisServer{}
+	server := &GodisServer{}
 	server.dictionary = &sync.Map{}
 
 	if serverType == WithBackup {
