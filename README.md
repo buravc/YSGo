@@ -12,4 +12,4 @@ YS Go Task I was assigned to.
 * an isolation layer between httpServer and godisServer (DONE, repository)
 * deploy to aws (or azure)
 * make README have the usage of this lib. (endpoints, build etc.)
-* implement proper logging
+* implement proper logging (DONE)

@@ -1,6 +1,8 @@
 package cron
 
-import "time"
+import (
+	"time"
+)
 
 func CreateCron(interval time.Duration, f func()) {
 	ticker := time.NewTicker(interval)

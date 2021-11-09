@@ -117,4 +117,6 @@ func (server *GodisServer) loadFromFile() {
 		log.Println(err)
 	}
 
+	log.Println("Backup has been restored successfully.")
+
 }
