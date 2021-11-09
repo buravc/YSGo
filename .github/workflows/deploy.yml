@@ -18,11 +18,13 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-          git clone https://github.com/callduckk/YSGo-nginxReverseProxy.git /home/github/YSGo-NginxReverseProxy
-          cd /home/github/YSGo-NginxReverseProxy
+          rm -rf /home/${{ secrets.USERNAME }}/YSGo-NginxReverseProxy
+          git clone https://github.com/callduckk/YSGo-nginxReverseProxy.git /home/${{ secrets.USERNAME }}/YSGo-NginxReverseProxy
+          cd /home/${{ secrets.USERNAME }}/YSGo-NginxReverseProxy
           sudo docker-compose up --detach
-          mkdir /home/github/GodisAPI
-          cd /home/github/GodisAPI
-          curl -O https://github.com/callduckk/YSGo/blob/main/Dockerfile.production
-          curl -O https://github.com/callduckk/YSGo/blob/main/docker-compose.yml
+          rm -rf /home/${{ secrets.USERNAME }}/GodisAPI
+          mkdir /home/${{ secrets.USERNAME }}/GodisAPI
+          cd /home/${{ secrets.USERNAME }}/GodisAPI
+          curl -O https://raw.githubusercontent.com/callduckk/YSGo/main/Dockerfile.production
+          curl -O https://raw.githubusercontent.com/callduckk/YSGo/main/docker-compose.yml
           sudo docker-compose up --detach
