@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"sync"
-	"time"
 
 	"YSGo/godis/cron"
 )
@@ -23,17 +22,8 @@ func buildGodisServer(serverType ServerType, loadBackup bool) *GodisServer {
 
 	if serverType == WithBackup {
 		intervalStr := os.Getenv("GodisBackupInterval")
-		var intervalDuration time.Duration
-		switch intervalStr {
-		case "1h":
-			intervalDuration = time.Hour
-		case "15m":
-			intervalDuration = time.Minute * 15
-		case "10s":
-			intervalDuration = time.Second * 10
-		default:
-			intervalDuration = time.Hour
-		}
+
+		intervalDuration := parseString(intervalStr)
 
 		log.Printf("Backup Interval: %s\n", intervalStr)
 
