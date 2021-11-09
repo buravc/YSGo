@@ -1,6 +1,4 @@
 FROM golang:stretch as preparation
-ENV GodisApiEndpoint=0.0.0.0:8090
-ENV GodisBackupInterval=1h
 
 WORKDIR /app
 RUN git clone https://github.com/callduckk/YSGo .
@@ -9,6 +7,8 @@ RUN go build -o /app/GodisAPI /app/cmd
 EXPOSE 8090
 
 FROM golang:stretch as build
+ENV GodisApiEndpoint=0.0.0.0:8090
+ENV GodisBackupInterval=1h
 
 WORKDIR /app
 COPY --from=preparation /app/GodisAPI ./
