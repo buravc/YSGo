@@ -1,7 +1,7 @@
 package main
 
 import (
-	"YSGo/godisApi"
+	"github.com/callduckk/YSGo/godisApi"
 )
 
 func main() {

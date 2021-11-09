@@ -1,9 +1,6 @@
 package godisApi
 
 import (
-	godis "YSGo/godis/server"
-	godisApi "YSGo/godisApi/models"
-	"YSGo/repository"
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
@@ -11,6 +8,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	godis "github.com/callduckk/YSGo/godis/server"
+	godisApi "github.com/callduckk/YSGo/godisApi/models"
+	"github.com/callduckk/YSGo/repository"
 )
 
 type GodisApiServer struct {
@@ -21,8 +22,8 @@ type GodisApiServer struct {
 func NewApiServer() *GodisApiServer {
 	log.Println("Starting GodisApiServer...")
 
-	godis := godis.Singleton()
-	defaultRepository := &repository.DefaultRepository{GodisServer: godis}
+	godisSingleton := godis.Singleton()
+	defaultRepository := &repository.DefaultRepository{GodisServer: godisSingleton}
 	godisRepository := repository.Repository(defaultRepository)
 
 	endpoint := os.Getenv("GodisApiEndpoint")

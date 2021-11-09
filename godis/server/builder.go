@@ -5,7 +5,7 @@ import (
 	"os"
 	"sync"
 
-	"YSGo/godis/cron"
+	"github.com/callduckk/YSGo/godis/cron"
 )
 
 type ServerType int

@@ -1,7 +1,7 @@
 package repository
 
 import (
-	godis "YSGo/godis/server"
+	godis "github.com/callduckk/YSGo/godis/server"
 )
 
 type Repository interface {
