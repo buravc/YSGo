@@ -8,7 +8,7 @@ import (
 )
 
 func getNumberRegex() *regexp.Regexp {
-	return regexp.MustCompile(`^([0-9].+?)\s*(?:(s|h|m))?$`)
+	return regexp.MustCompile(`^([0-9]+?)\s*(?:(s|h|m))?$`)
 }
 
 func parseString(str string) time.Duration {
