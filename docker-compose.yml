@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  GodisAPI:
+    container_name: "godisapi"
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    restart: "always"
+    expose:
+    - 8090
+    networks:
+      app_net:
+        ipv4_address: 172.16.14.15
+networks:
+  app_net:
+    external:
+      name: "YSGoNetwork"
