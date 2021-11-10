@@ -106,3 +106,6 @@ The implemented singleton pattern uses mutex as a lock mechanism to prevent data
 
 #### Which style guide was followed?
 [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md) was followed.
+
+## Limitations
+Godis only supports string:string key-value pairs. So it can't store collections neither as key nor as value.
