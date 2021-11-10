@@ -109,12 +109,14 @@ func (server *GodisServer) loadFromFile() {
 
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	err = server.fromJson(file)
 
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	log.Println("Backup has been restored successfully.")
