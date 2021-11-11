@@ -1,5 +1,6 @@
 # YSGo
 YS Go Task I was assigned to. 
+
 [Live API](http://52.157.158.180:80/)
 
 ## Description
@@ -7,14 +8,15 @@ This is an Api library with a Redis like in-memory key-value (NoSQL) storage imp
 
 ## Why Godis? What does it mean?
 This name was inspired from the consistency of library naming convention of Go Community.
-
-## Installation
-Godis uses two Environment Variable for configuration. One for backup interval `GodisBackupInterval`, and the other for the address to listen `GodisApiEndpoint`
+## Configuration
+* Godis uses two Environment Variable for configuration. One for backup interval `GodisBackupInterval`, and the other for the address to listen `GodisApiEndpoint`
 `GodisBackupInterval` Supports hour, minute and second configs (E.g. `1h`, `12h`, `30m`, `11m`, `10s`)
-`GodisApiEndpoint` is formatted as follows `<ip-address>:<port>`
-Backup file path is `<os-default-temp-dir>/Latest-GodisBackup.json` (A symbolic link to the latest backup file)
 
-#### Containerized:
+* `GodisApiEndpoint` is formatted as follows `<ip-address>:<port>`
+
+* Backup file path is `<os-default-temp-dir>/Latest-GodisBackup.json` (A symbolic link to the latest backup file)
+## Installation
+### Containerized:
 Simply download the `Dockerfile.production` 
 ```bash
 $ curl -O https://raw.githubusercontent.com/callduckk/YSGo/main/Dockerfile.production
@@ -28,13 +30,12 @@ Then run the created container image with
 $ docker run -p <host-port>:<container-port> <image-id>
 ```
 You can change the default configurations for Environment Variables within the `Dockerfile.production`
-
 ```Dockerfile
 ENV GodisApiEndpoint=0.0.0.0:8090
 ENV GodisBackupInterval=1h
 ```
 `docker-compose.yml` file was prepared with a [reverse proxy](https://github.com/callduckk/YSGo-nginxReverseProxy) container in mind.
-#### Non-Containerized
+### Non-Containerized:
 Clone the git repository with
 ```bash
 $ git clone https://github.com/callduckk/YSGo
@@ -75,8 +76,8 @@ Example request
 This endpoint supports POST verb with `Content-Type: application/json`. Allows user to store new key-value pair or change existing ones. Required parameters are as follows
 ```json
 {
-	"key": <key>,
-	"value": <value>
+  "key": <key>,
+  "value": <value>
 }
 ```
 Returns
@@ -93,7 +94,6 @@ Returns
   "success": true/false
 }
 ```
-
 ## Questions
 #### Why not use Redis?
 Task description stated that I shall only use golang stdlib. This is the same reason why I didn't use `cron` utility, instead implemented my own.
@@ -106,7 +106,7 @@ Godis is developed with thread safety in mind. Therefore it uses `sync/Map` libr
 The implemented singleton pattern uses mutex as a lock mechanism to prevent data races from occurring.
 
 #### Which style guide was followed?
-[Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md) was followed.
+[Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md) was followed to some extent.
 
 ## Limitations
 Godis only supports string:string key-value pairs. So it can't store collections neither as key nor as value.
